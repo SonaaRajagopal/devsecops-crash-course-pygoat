@@ -62,9 +62,15 @@ jobs:
         with: 
           dockerhub-user: ${{ secrets.REPO_USER }}
           dockerhub-password: ${{ secrets.REPO_PWD }}
-          command: quickview.cves
+          command: cves  # Try changing from 'quickview.cves' to 'cves' if issue persists
           only-severities: critical.high
           sarif-file: scout-report.sarif
+          summary: true
+          format: json
+          referrer: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          write-comment: true
+
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4  # Ensuring latest stable version
