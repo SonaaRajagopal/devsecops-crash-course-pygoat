@@ -9,30 +9,22 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4  # Updated to latest version
 
-    - name: Set uo Python
-      uses: actions/setup-python@v2
+    - name: Set up Python  # Fixed typo
+      uses: actions/setup-python@v4  # Updated to latest version
       with:
         python-version: 3.8
-        
+
     - name: Install Bandit
       run: pip install bandit
 
     - name: Run Bandit Scan
       run: bandit -ll -ii -r . -f json -o bandit-report.json
-    
-    
+
     - name: Upload Artifact
-      uses: actions/upload-artifact
+      uses: actions/upload-artifact@v3  # Ensuring latest stable version
       if: always()
       with:
         name: bandit-findings
         path: bandit-report.json
-
-      
-    
-      
-        
-      
-    
