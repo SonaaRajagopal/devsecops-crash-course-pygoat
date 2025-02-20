@@ -38,10 +38,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4  # Updated to latest version
 
-      - name: Build Docker Image
-        run: docker build -t myapp:latest .  # Fixed missing build context
+      - name: Set up Docker
+        uses:  docker-practice/actions-steup-docker@v1
+        with:
+          docker_version: '20.0.7'
+        
 
-      - name: Docker Scout Scan
+      - name: Build Docker Image
+        run: docker build -f Dockerfile -t myapp:latest .
+
+      - name: Docker Scout Scan  
         run: |
           curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
           sh install-scout.sh
