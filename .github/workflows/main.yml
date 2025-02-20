@@ -43,7 +43,7 @@ jobs:
 
       - name: Docker Scout Scan
         run: 
-          curl -fsSL https://github.com/docker/scout-cli/blob/main/install.sh -o install-scout.sh
+          curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
           sh install-scout.sh
           docker scout quickview
           docker scout cves
