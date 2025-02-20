@@ -42,7 +42,7 @@ jobs:
         run: docker build -t myapp:latest .  # Fixed missing build context
 
       - name: Docker Scout Scan
-        run: 
+        run: |
           curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
           sh install-scout.sh
           docker scout quickview
