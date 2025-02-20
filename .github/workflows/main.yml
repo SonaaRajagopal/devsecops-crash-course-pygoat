@@ -28,3 +28,25 @@ jobs:
       with:
         name: bandit-findings
         path: bandit-report.json
+
+ 
+  image_scan:
+     name: Build and run on image scan
+     runs-on: ubuntu-latest
+
+     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Updated to latest version
+
+      - name: Build Docker Image
+        run: docker build -t myapp:latest .  # Fixed missing build context
+
+      - name: Docker Scout Scan
+        run: 
+          curl -fsSL https://github.com/docker/scout-cli/blob/main/install.sh -o install-scout.sh
+          sh install-scout.sh
+          docker scout quickview
+          docker scout cves
+
+
+        
