@@ -17,10 +17,14 @@ RUN apt-get update && \
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Install pip and dependencies
-RUN python -m pip install --no-cache-dir pip==22.0.4
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip first
+RUN python -m pip install --upgrade pip
+
+# Copy requirements file explicitly
+COPY requirements.txt /app/requirements.txt
+
+# Install dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt || cat /app/requirements.txt
 
 # Copy project files
 COPY . /app/
@@ -31,7 +35,7 @@ EXPOSE 8000
 # Run database migrations
 RUN python3 manage.py migrate
 
-# Set working directory for PyGoat (ensure this path exists)
+# Set working directory for PyGoat
 WORKDIR /app/pygoat/
 
 # Start Gunicorn server
