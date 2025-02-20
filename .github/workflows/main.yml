@@ -46,13 +46,30 @@ jobs:
       - name: Build Docker Image
         run: docker build -t myapp:latest .  # Fixed syntax, added context
 
-      - name: Install Docker Scout and Scan  
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
-          sh install-scout.sh
+      # - name: Install Docker Scout and Scan  
+      #   run: |
+      #     curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
+      #     sh install-scout.sh
 
-          echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
+      #     echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
 
           
-          docker scout quickview # Scan for general insights
-          docker scout cves   # Scan for vulnerabilities
+      #     docker scout quickview # Scan for general insights
+      #     docker scout cves   # Scan for vulnerabilities
+
+      - name: Docker Scout
+        uses: docker/scout-action@v1.16.1
+        with: 
+          dockerhub-user: ${{ secrets.REPO_USER }}
+          dockerhub-password: ${{ secrets.REPO_PWD }}
+          command: quickview.cves
+          only-severities: critical.high
+          sarif-file: scout-report.sarif
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4  # Ensuring latest stable version
+        if: always()
+        with:
+         name: docker-scout-findings
+         path: scout-report.sarif
+
