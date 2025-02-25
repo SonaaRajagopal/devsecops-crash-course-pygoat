@@ -11,7 +11,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4  # Updated to latest version
 
-    - name: Set up Python  # Fixed typo
+    - name: Set up Python  
       uses: actions/setup-python@v4  # Updated to latest version
       with:
         python-version: 3.8
@@ -44,7 +44,7 @@ jobs:
           docker_version: '27.4.0'
 
       - name: Build Docker Image
-        run: docker build -t myapp:latest .  # Fixed syntax, added context
+        run: docker build -t myapp:latest .  
 
       # - name: Install Docker Scout and Scan  
       #   run: |
@@ -62,7 +62,7 @@ jobs:
         with: 
           dockerhub-user: ${{ secrets.REPO_USER }}
           dockerhub-password: ${{ secrets.REPO_PWD }}
-          command: cves  # Try changing from 'quickview.cves' to 'cves' if issue persists
+          command: cves  
           only-severities: critical.high
           sarif-file: scout-report.sarif
           summary: true
